@@ -163,10 +163,19 @@ const getDogsByTemperament = async (page, id) => {
 };
 
 // Get filtered dogs
-const getFilteredDogs = async (page, order, weight, height, life) => {
+const getFilteredDogs = async (page, order, weight, height, life, name) => {
   const results = [];
   try {
     const dogs = await Dog.findAndCountAll({
+      where: {
+        ...(name
+          ? {
+              name: {
+                [Op.iLike]: `%${name}%`,
+              },
+            }
+          : {}),
+      },
       order: [
         ...(order ? [["name", order.toUpperCase()]] : []),
         ...(weight ? [["min_weight", weight.toUpperCase()]] : []),
