@@ -162,8 +162,73 @@ const getDogsByTemperament = async (page, id) => {
   }
 };
 
+// Get filtered dogs
+const getFilteredDogs = async (page, order, weight, height, life) => {
+  const results = [];
+  try {
+    const dogs = await Dog.findAndCountAll({
+      order: [
+        ...(order ? [["name", order.toUpperCase()]] : []),
+        ...(weight ? [["min_weight", weight.toUpperCase()]] : []),
+        ...(height ? [["min_height", height.toUpperCase()]] : []),
+        ...(life ? [["life_span", life.toUpperCase()]] : []),
+      ],
+      limit: 8,
+      offset: page * 8 - 8,
+    });
+
+    if (dogs.count === 0) {
+      return false;
+    }
+
+    if (dogs.rows.length > 0) {
+      for (let d of dogs.rows) {
+        const temperaments = await Temperament.findAll({
+          include: {
+            model: Dog,
+            where: {
+              id: d.id,
+            },
+          },
+        });
+
+        if (temperaments.length > 0) {
+          results.push({
+            id: d.id,
+            name: d.name,
+            image: d.image,
+            weight: d.weight,
+            temperaments: temperaments.map((t) => t.name),
+          });
+        } else {
+          results.push({
+            id: d.id,
+            name: d.name,
+            image: d.image,
+            weight: d.weight,
+            temperaments: [],
+          });
+        }
+      }
+
+      return {
+        totalResults: dogs.count,
+        totalPages: Math.ceil(dogs.count / 8),
+        page: parseInt(page),
+        data: results,
+      };
+    } else {
+      return { data: [] };
+    }
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to get filtered dogs");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
   getDogsByTemperament,
+  getFilteredDogs,
 };
