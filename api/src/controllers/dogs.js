@@ -213,9 +213,106 @@ const getDogsByTemperament = async (req, res, next) => {
   }
 };
 
+// Get filtered dogs
+const getFilteredDogs = async (req, res, next) => {
+  const { order, weight, height, life, page } = req.query;
+
+  try {
+    if (page) {
+      if (validatePage(page)) {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: "Page must be a number",
+        });
+      }
+
+      if (parseInt(page) === 0) {
+        return res.status(404).json({
+          statusCode: 404,
+          msg: `Page ${page} not found!`,
+        });
+      }
+    }
+
+    if (order) {
+      if (order.toLowerCase() !== "asc" && order.toLowerCase() !== "desc") {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: "Order query must be ASC or DESC",
+        });
+      }
+    }
+
+    if (weight) {
+      if (weight.toLowerCase() !== "asc" && weight.toLowerCase() !== "desc") {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: "Weight query must be ASC or DESC",
+        });
+      }
+    }
+
+    if (height) {
+      if (height.toLowerCase() !== "asc" && height.toLowerCase() !== "desc") {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: "Height query must be ASC or DESC",
+        });
+      }
+    }
+
+    if (life) {
+      if (life.toLowerCase() !== "asc" && life.toLowerCase() !== "desc") {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: "Life query must be ASC or DESC",
+        });
+      }
+    }
+
+    if (!order && !weight && !height && !life) {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: "Query parameter is missing!",
+      });
+    }
+
+    const dogs = await dogServices.getFilteredDogs(
+      page ? page : 1,
+      order,
+      weight,
+      height,
+      life
+    );
+
+    if (!dogs) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: "No dogs found with these filters!",
+      });
+    }
+
+    if (!dogs.data.length) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: `Page ${page} not found!`,
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      ...dogs,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
   getDogById,
   getDogsByTemperament,
+  getFilteredDogs,
 };
