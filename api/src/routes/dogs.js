@@ -3,6 +3,8 @@ const router = express.Router();
 
 const dogController = require("../controllers/dogs");
 
+// Get filtered dogs
+router.get("/filter", dogController.getFilteredDogs);
 // Get dog by id
 router.get("/:id", dogController.getDogById);
 // Get dogs by temperament
