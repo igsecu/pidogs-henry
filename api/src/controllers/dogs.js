@@ -215,7 +215,7 @@ const getDogsByTemperament = async (req, res, next) => {
 
 // Get filtered dogs
 const getFilteredDogs = async (req, res, next) => {
-  const { order, weight, height, life, page } = req.query;
+  const { order, weight, height, life, page, name } = req.query;
 
   try {
     if (page) {
@@ -270,7 +270,7 @@ const getFilteredDogs = async (req, res, next) => {
       }
     }
 
-    if (!order && !weight && !height && !life) {
+    if (!order && !weight && !height && !life && !name) {
       return res.status(400).json({
         statusCode: 400,
         msg: "Query parameter is missing!",
@@ -282,7 +282,8 @@ const getFilteredDogs = async (req, res, next) => {
       order,
       weight,
       height,
-      life
+      life,
+      name
     );
 
     if (!dogs) {
