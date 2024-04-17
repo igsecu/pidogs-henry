@@ -60,6 +60,42 @@ const getDogs = async (page) => {
   }
 };
 
+// Get Dog By id
+const getDogById = async (id) => {
+  try {
+    const dog = await Dog.findByPk(id, {
+      attributes: ["id", "name", "image", "weight", "height", "life_span"],
+    });
+
+    if (dog) {
+      const temperaments = await Temperament.findAll({
+        attributes: ["id", "name"],
+        include: {
+          model: Dog,
+          where: {
+            id,
+          },
+        },
+      });
+
+      return {
+        id: dog.id,
+        name: dog.name,
+        image: dog.image,
+        weight: dog.weight,
+        height: dog.height,
+        life_span: dog.life_span,
+        temperaments: temperaments.map((t) => t.name),
+      };
+    }
+
+    return dog;
+  } catch (error) {
+    throw new Error("Error trying to get a dog by its id");
+  }
+};
+
 module.exports = {
   getDogs,
+  getDogById,
 };
