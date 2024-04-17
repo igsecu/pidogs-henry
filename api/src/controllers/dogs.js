@@ -2,7 +2,11 @@ const axios = require("axios");
 const Dog = require("../models/Dog");
 const Temperament = require("../models/Temperament");
 
-const { convertTemperamentsToArray, validatePage } = require("../utils/index");
+const {
+  convertTemperamentsToArray,
+  validatePage,
+  validateId,
+} = require("../utils/index");
 
 const dogServices = require("../services/dogs");
 
@@ -114,7 +118,39 @@ const getDogs = async (req, res, next) => {
   }
 };
 
+// Get Dog by id
+const getDogById = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    if (!validateId(id)) {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: `ID: ${id} - Invalid format!`,
+      });
+    }
+
+    const dog = await dogServices.getDogById(id);
+
+    if (!dog) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: `Dog with ID: ${id} not found!`,
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      data: dog,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
+  getDogById,
 };
