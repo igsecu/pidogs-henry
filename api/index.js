@@ -5,18 +5,14 @@ const PORT = process.env.PORT || 5000;
 
 const db = require("./src/db");
 
+const router = require("./src/routes/index");
+
+const dogsController = require("./src/controllers/dogs");
+const temperamentController = require("./src/controllers/temperaments");
+
 // Body-Parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Express Session Middleware
-app.use(
-  session({
-    secret: `${process.env.SESSION_SECRET}`,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 
 // Res Headers
 app.use((req, res, next) => {
@@ -30,6 +26,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// Database models
+const Dog = require("./src/models/Dog");
+const Temperament = require("./src/models/Temperament");
+// Model associations
+Dog.belongsToMany(Temperament, { through: "DogsTemperaments" });
+Temperament.belongsToMany(Dog, { through: "DogsTemperaments" });
+
+// Router middleware
+app.use("/api", router);
+
 // Error catching endware
 app.use((err, req, res, next) => {
   const status = err.status || 500;
@@ -41,7 +47,9 @@ app.use((err, req, res, next) => {
 });
 
 // Initialized Express Server
-db.sync({}).then(() => {
+db.sync({}).then(async () => {
+  await temperamentController.getAllTemperamentsFromApi();
+  await dogsController.getAllApi();
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
   });
