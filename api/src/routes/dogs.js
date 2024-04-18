@@ -5,6 +5,8 @@ const dogController = require("../controllers/dogs");
 
 const fileUpload = require("express-fileupload");
 
+// Get random dog
+router.get("/random", dogController.getRandomDog);
 // Get last comments
 router.get("/comments/last", dogController.getLastComments);
 // Get dog comments
