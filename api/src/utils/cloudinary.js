@@ -23,4 +23,5 @@ const deleteImage = async (image_id) => {
 
 module.exports = {
   uploadDogImage,
+  deleteImage,
 };
