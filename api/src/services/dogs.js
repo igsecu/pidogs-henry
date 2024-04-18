@@ -3,6 +3,8 @@ const Temperament = require("../models/Temperament");
 
 const { Op } = require("sequelize");
 
+const { deleteImage } = require("../utils/cloudinary");
+
 // Get dogs
 const getDogs = async (page) => {
   const results = [];
@@ -260,10 +262,43 @@ const createDog = async (dog, weight, height, life_span) => {
   }
 };
 
+// Update dog image
+const updateDogImage = async (id, image, image_id) => {
+  try {
+    const dog = await Dog.findByPk(id);
+
+    if (dog.image_id !== null) {
+      await deleteImage(dog.image_id);
+    }
+
+    const dogUpdated = await Dog.update(
+      {
+        image,
+        image_id,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+
+    if (dogUpdated[0] === 1) {
+      const dog = await getDogById(id);
+
+      return dog;
+    }
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to update dog image!");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
   getDogsByTemperament,
   getFilteredDogs,
   createDog,
+  updateDogImage,
 };
