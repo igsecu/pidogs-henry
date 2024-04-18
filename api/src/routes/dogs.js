@@ -15,5 +15,14 @@ router.get("/temperament/:id", dogController.getDogsByTemperament);
 router.get("/", dogController.getDogs);
 // Create new dog
 router.post("/", dogController.createDog);
+// Update dog image
+router.put(
+  "/:id",
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: `${__dirname}/../../uploads`,
+  }),
+  dogController.updateDogImage
+);
 
 module.exports = router;
