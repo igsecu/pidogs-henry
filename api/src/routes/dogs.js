@@ -5,6 +5,8 @@ const dogController = require("../controllers/dogs");
 
 const fileUpload = require("express-fileupload");
 
+// Get last comments
+router.get("/comments/last", dogController.getLastComments);
 // Get dog comments
 router.get("/comments/:id", dogController.getDogComments);
 // Get more views dogs
