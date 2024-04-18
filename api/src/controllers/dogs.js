@@ -163,72 +163,9 @@ const getDogById = async (req, res, next) => {
   }
 };
 
-// Get dogs by temperament
-const getDogsByTemperament = async (req, res, next) => {
-  const { page } = req.query;
-  const { id } = req.params;
-  try {
-    if (page) {
-      if (validatePage(page)) {
-        return res.status(400).json({
-          statusCode: 400,
-          msg: "Page must be a number",
-        });
-      }
-
-      if (parseInt(page) === 0) {
-        return res.status(404).json({
-          statusCode: 404,
-          msg: `Page ${page} not found!`,
-        });
-      }
-    }
-
-    if (!validateId(id)) {
-      return res.status(400).json({
-        statusCode: 400,
-        msg: `ID: ${id} - Invalid format!`,
-      });
-    }
-
-    const temperament = await temperamentServices.getTemperamentById(id);
-
-    if (!temperament) {
-      return res.status(404).json({
-        statusCode: 404,
-        msg: `Temperament with ID: ${id} not found!`,
-      });
-    }
-
-    const dogs = await dogServices.getDogsByTemperament(page ? page : 1, id);
-
-    if (!dogs) {
-      return res.status(404).json({
-        statusCode: 404,
-        msg: `Dogs with Temperament: ${temperament.name} not found!`,
-      });
-    }
-
-    if (!dogs.data.length) {
-      return res.status(404).json({
-        statusCode: 404,
-        msg: `Page ${page} not found!`,
-      });
-    }
-
-    res.status(200).json({
-      statusCode: 200,
-      ...dogs,
-    });
-  } catch (error) {
-    console.log(error.message);
-    return next(error);
-  }
-};
-
 // Get filtered dogs
 const getFilteredDogs = async (req, res, next) => {
-  const { order, weight, height, life, page, name } = req.query;
+  const { order, weight, height, life, page, name, temperament } = req.query;
 
   try {
     if (page) {
@@ -283,7 +220,27 @@ const getFilteredDogs = async (req, res, next) => {
       }
     }
 
-    if (!order && !weight && !height && !life && !name) {
+    if (temperament) {
+      if (!validateId(temperament)) {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: `temperament: ${temperament} - Invalid format!`,
+        });
+      }
+
+      const temperamentFound = await temperamentServices.getTemperamentById(
+        temperament
+      );
+
+      if (!temperamentFound) {
+        return res.status(404).json({
+          statusCode: 404,
+          msg: `Temperament with ID: ${temperament} not found!`,
+        });
+      }
+    }
+
+    if (!order && !weight && !height && !life && !name && !temperament) {
       return res.status(400).json({
         statusCode: 400,
         msg: "Query parameter is missing!",
@@ -296,7 +253,8 @@ const getFilteredDogs = async (req, res, next) => {
       weight,
       height,
       life,
-      name
+      name,
+      temperament
     );
 
     if (!dogs) {
@@ -459,7 +417,6 @@ module.exports = {
   getAllApi,
   getDogs,
   getDogById,
-  getDogsByTemperament,
   getFilteredDogs,
   createDog,
   updateDogImage,
