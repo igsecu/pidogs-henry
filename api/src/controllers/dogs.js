@@ -413,6 +413,27 @@ const updateDogImage = async (req, res, next) => {
   }
 };
 
+// Get all temperaments
+const getTemperaments = async (req, res, next) => {
+  try {
+    const temperaments = await temperamentServices.getTemperaments();
+
+    if (!temperaments) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: "No temperaments saved in DB!",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      data: temperaments,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -420,4 +441,5 @@ module.exports = {
   getFilteredDogs,
   createDog,
   updateDogImage,
+  getTemperaments,
 };
