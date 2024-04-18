@@ -17,6 +17,8 @@ router.get("/filter", dogController.getFilteredDogs);
 router.get("/:id", dogController.getDogById);
 // Get all dogs
 router.get("/", dogController.getDogs);
+// Create new comment
+router.post("/comment", dogController.createComment);
 // Create new dog
 router.post("/", dogController.createDog);
 // Update dog image
