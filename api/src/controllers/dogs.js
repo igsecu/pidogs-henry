@@ -324,8 +324,6 @@ const getFilteredDogs = async (req, res, next) => {
 const createDog = async (req, res, next) => {
   const dog = req.body;
 
-  console.log(dog);
-
   if (validateName(dog.name)) {
     return res.status(400).json({
       statusCode: 400,
@@ -382,6 +380,78 @@ const createDog = async (req, res, next) => {
   }
 };
 
+// Update dog image
+const updateDogImage = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!validateId(id)) {
+    return res.status(400).json({
+      statusCode: 400,
+      msg: `ID: ${id} - Invalid format!`,
+    });
+  }
+
+  try {
+    const dog = await dogServices.getDogById(id);
+
+    if (!dog) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: `Dog with ID: ${id} not found!`,
+      });
+    }
+
+    if (req.files?.image) {
+      if (await validateFileType(req.files.image.tempFilePath)) {
+        const message = await validateFileType(req.files.image.tempFilePath);
+
+        await fsExtra.unlink(req.files.image.tempFilePath);
+
+        return res.status(400).json({
+          statusCode: 400,
+          msg: message,
+        });
+      }
+
+      if (await validateImageSize(req.files.image.tempFilePath)) {
+        const message = await validateImageSize(req.files.image.tempFilePath);
+
+        await fsExtra.unlink(req.files.image.tempFilePath);
+
+        return res.status(400).json({
+          statusCode: 400,
+          msg: message,
+        });
+      }
+
+      const result = await uploadDogImage(req.files.image.tempFilePath);
+
+      await fsExtra.unlink(req.files.image.tempFilePath);
+
+      const dogUpdated = await dogServices.updateDogImage(
+        dog.id,
+        result.secure_url,
+        result.public_id
+      );
+
+      return res.status(200).json({
+        statusCode: 200,
+        msg: "Image updated successfully!",
+        data: dogUpdated,
+      });
+    } else {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: "Image file is missing!",
+      });
+    }
+  } catch (error) {
+    await fsExtra.unlink(req.files.image.tempFilePath);
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -389,4 +459,5 @@ module.exports = {
   getDogsByTemperament,
   getFilteredDogs,
   createDog,
+  updateDogImage,
 };
