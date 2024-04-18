@@ -29,9 +29,13 @@ app.use((req, res, next) => {
 // Database models
 const Dog = require("./src/models/Dog");
 const Temperament = require("./src/models/Temperament");
+const Comment = require("./src/models/Comment");
 // Model associations
 Dog.belongsToMany(Temperament, { through: "DogsTemperaments" });
 Temperament.belongsToMany(Dog, { through: "DogsTemperaments" });
+
+Dog.hasMany(Comment);
+Comment.belongsTo(Dog);
 
 // Router middleware
 app.use("/api", router);
