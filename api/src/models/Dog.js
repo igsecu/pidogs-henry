@@ -58,6 +58,14 @@ const Dog = db.define(
       type: DataTypes.STRING,
       defaultValue: null,
     },
+    views: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    comments_number: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: true,
