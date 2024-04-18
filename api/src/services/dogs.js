@@ -2,7 +2,7 @@ const Dog = require("../models/Dog");
 const Temperament = require("../models/Temperament");
 const Comment = require("../models/Comment");
 
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 
 const { deleteImage } = require("../utils/cloudinary");
 
@@ -416,6 +416,27 @@ const getLastComments = async () => {
   }
 };
 
+// Get random dog
+const getRandomDog = async () => {
+  try {
+    const dog = await Dog.findOne({
+      order: Sequelize.literal("random()"),
+    });
+
+    if (dog) {
+      return {
+        name: dog.name,
+        image: dog.image,
+      };
+    }
+
+    return dog;
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to get a random dog");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
@@ -427,4 +448,5 @@ module.exports = {
   createComment,
   getDogComments,
   getLastComments,
+  getRandomDog,
 };
