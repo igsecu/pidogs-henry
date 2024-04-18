@@ -1,5 +1,6 @@
 const Dog = require("../models/Dog");
 const Temperament = require("../models/Temperament");
+const Comment = require("../models/Comment");
 
 const { Op } = require("sequelize");
 
@@ -320,6 +321,34 @@ const getMoreViews = async () => {
   }
 };
 
+// Create comment
+const createComment = async (text, from, dogId) => {
+  try {
+    const comment = await Comment.create({
+      text,
+      from: from ? from : "Anonymous",
+      dogId,
+    });
+
+    await Dog.increment(
+      { comments_number: 1 },
+      {
+        where: {
+          id: dogId,
+        },
+      }
+    );
+
+    return {
+      id: comment.id,
+      text: comment.text,
+      from: comment.from,
+    };
+  } catch (error) {
+    throw new Error("Error trying to create a comment");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
@@ -328,4 +357,5 @@ module.exports = {
   updateDogImage,
   getLastDogs,
   getMoreViews,
+  createComment,
 };
