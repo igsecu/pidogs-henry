@@ -5,6 +5,8 @@ const dogController = require("../controllers/dogs");
 
 const fileUpload = require("express-fileupload");
 
+// Get more views dogs
+router.get("/views", dogController.getMoreViews);
 // Get last dogs
 router.get("/last", dogController.getLastDogs);
 // Get temperaments
