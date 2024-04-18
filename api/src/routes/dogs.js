@@ -9,8 +9,6 @@ const fileUpload = require("express-fileupload");
 router.get("/filter", dogController.getFilteredDogs);
 // Get dog by id
 router.get("/:id", dogController.getDogById);
-// Get dogs by temperament
-router.get("/temperament/:id", dogController.getDogsByTemperament);
 // Get all dogs
 router.get("/", dogController.getDogs);
 // Create new dog
