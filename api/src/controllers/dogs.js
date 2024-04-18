@@ -574,6 +574,28 @@ const getDogComments = async (req, res, next) => {
   }
 };
 
+// Get last comments
+const getLastComments = async (req, res, next) => {
+  try {
+    const comments = await dogServices.getLastComments();
+
+    if (!comments) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: "No comments saved in DB!",
+      });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      data: comments,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -586,4 +608,5 @@ module.exports = {
   getMoreViews,
   createComment,
   getDogComments,
+  getLastComments,
 };
