@@ -235,9 +235,35 @@ const getFilteredDogs = async (page, order, weight, height, life, name) => {
   }
 };
 
+// Create dog
+const createDog = async (dog, weight, height, life_span) => {
+  try {
+    const dogCreated = await Dog.create({
+      name: dog.name,
+      min_height: dog.min_height,
+      max_height: dog.max_height,
+      min_weight: dog.min_weight,
+      max_weight: dog.max_weight,
+      min_life_span: dog.min_life_span,
+      max_life_span: dog.max_life_span,
+      weight,
+      height,
+      life_span,
+    });
+
+    console.log(dogCreated);
+
+    return dogCreated;
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to create a new dog");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
   getDogsByTemperament,
   getFilteredDogs,
+  createDog,
 };
