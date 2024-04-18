@@ -148,6 +148,14 @@ const validateFileType = (file) => {
   });
 };
 
+const validateText = (text) => {
+  if (!text) return "Text is missing";
+  if (typeof text !== "string") return "Text must be a string!";
+  if (text.trim().length > 100 || text.trim().length < 1)
+    return "Text must be between 1 and 100 characters long!";
+  return false;
+};
+
 module.exports = {
   convertTemperamentsToArray,
   validatePage,
@@ -158,4 +166,5 @@ module.exports = {
   validateLifeSpan,
   validateFileType,
   validateImageSize,
+  validateText,
 };
