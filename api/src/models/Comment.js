@@ -20,7 +20,9 @@ const Comment = db.define(
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
+    createdAt: true,
+    updatedAt: false,
   }
 );
 
