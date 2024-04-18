@@ -37,9 +37,11 @@ const getAllApi = async () => {
       for (let r of apiResults.data) {
         if (r.weight !== "NaN" || r.height !== "NaN" || r.life_span !== "NaN") {
           if (r.id !== 232 && r.id !== 179) {
+            const image = await axios.get(
+              `https://api.thedogapi.com/v1/images/${r.reference_image_id}`
+            );
             const dogCreated = await Dog.create({
               name: r.name,
-              image: r.reference_image_id,
               min_weight: parseInt(r.weight.metric.split(" - ")[0]),
               max_weight: parseInt(r.weight.metric.split(" - ")[1])
                 ? parseInt(r.weight.metric.split(" - ")[1])
@@ -55,6 +57,7 @@ const getAllApi = async () => {
                 ? parseInt(r.life_span.split(" ")[1].split(" ")[1])
                 : null,
               life_span: r.life_span,
+              image: image.data.url ? image.data.url : null,
             });
 
             if (dogCreated) {
