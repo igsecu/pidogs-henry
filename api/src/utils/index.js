@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 // Convert temperaments String to Array
 const convertTemperamentsToArray = (temperaments) => {
   const temperamentsArray = [];
@@ -111,6 +113,13 @@ const validateImageSize = (file) => {
       return resolve(false);
     });
   });
+};
+
+const check = (headers) => {
+  return (buffers, options = { offset: 0 }) =>
+    headers.every(
+      (header, index) => header === buffers[options.offset + index]
+    );
 };
 
 const validateFileType = (file) => {
