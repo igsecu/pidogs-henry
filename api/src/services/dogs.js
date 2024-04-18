@@ -247,10 +247,38 @@ const updateDogImage = async (id, image, image_id) => {
   }
 };
 
+// Get last dogs
+const getLastDogs = async (page) => {
+  const results = [];
+  try {
+    const dogs = await Dog.findAll({
+      attributes: ["id", "name", "image"],
+      order: [["createdAt", "DESC"]],
+      limit: 10,
+    });
+
+    if (dogs) {
+      dogs.forEach((d) => {
+        results.push({
+          id: d.id,
+          name: d.name,
+          image: d.image,
+        });
+      });
+    }
+
+    return results;
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to get last dogs");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
   getFilteredDogs,
   createDog,
   updateDogImage,
+  getLastDogs,
 };
