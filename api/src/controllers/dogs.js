@@ -16,6 +16,7 @@ const {
   validateLifeSpan,
   validateName,
   validateWeight,
+  validateText,
 } = require("../utils/index");
 
 const dogServices = require("../services/dogs");
@@ -477,6 +478,63 @@ const getMoreViews = async (req, res, next) => {
   }
 };
 
+// Create comment
+const createComment = async (req, res, next) => {
+  const { text, from, dogId } = req.body;
+
+  try {
+    if (!dogId) {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: "dogId is missing",
+      });
+    }
+
+    if (!validateId(dogId)) {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: `dogId: ${dogId} - Invalid format!`,
+      });
+    }
+
+    const dog = await Dog.findByPk(dogId);
+
+    if (!dog) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: `Dog with ID: ${dogId} not found!`,
+      });
+    }
+
+    if (validateText(text)) {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: validateText(text),
+      });
+    }
+
+    if (from) {
+      if (typeof from !== "string") {
+        return res.status(400).json({
+          statusCode: 400,
+          msg: "From must be a string!",
+        });
+      }
+    }
+
+    const comment = await dogServices.createComment(text, from, dogId);
+
+    res.status(201).json({
+      statusCode: 201,
+      msg: "Comment created successfully!",
+      data: comment,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -487,4 +545,5 @@ module.exports = {
   getTemperaments,
   getLastDogs,
   getMoreViews,
+  createComment,
 };
