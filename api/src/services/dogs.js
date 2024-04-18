@@ -349,6 +349,35 @@ const createComment = async (text, from, dogId) => {
   }
 };
 
+// Get dog Comments
+const getDogComments = async (id) => {
+  const results = [];
+
+  try {
+    const comments = await Comment.findAll({
+      where: {
+        dogId: id,
+      },
+      order: [["createdAt", "ASC"]],
+    });
+
+    if (comments) {
+      comments.forEach((c) => {
+        results.push({
+          id: c.id,
+          text: c.text,
+          from: c.from,
+        });
+      });
+    }
+
+    return results;
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to get dog comments");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
@@ -358,4 +387,5 @@ module.exports = {
   getLastDogs,
   getMoreViews,
   createComment,
+  getDogComments,
 };
