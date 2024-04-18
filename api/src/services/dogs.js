@@ -68,7 +68,16 @@ const getDogs = async (page) => {
 const getDogById = async (id) => {
   try {
     const dog = await Dog.findByPk(id, {
-      attributes: ["id", "name", "image", "weight", "height", "life_span"],
+      attributes: [
+        "id",
+        "name",
+        "image",
+        "weight",
+        "height",
+        "life_span",
+        "views",
+        "comments_number",
+      ],
     });
 
     if (dog) {
@@ -82,6 +91,13 @@ const getDogById = async (id) => {
         },
       });
 
+      await Dog.increment(
+        { views: 1 },
+        {
+          where: { id },
+        }
+      );
+
       return {
         id: dog.id,
         name: dog.name,
@@ -90,6 +106,8 @@ const getDogById = async (id) => {
         height: dog.height,
         life_span: dog.life_span,
         temperaments: temperaments.map((t) => t.name),
+        views: dog.views,
+        comments: dog.comments_number,
       };
     }
 
@@ -248,7 +266,7 @@ const updateDogImage = async (id, image, image_id) => {
 };
 
 // Get last dogs
-const getLastDogs = async (page) => {
+const getLastDogs = async () => {
   const results = [];
   try {
     const dogs = await Dog.findAll({
@@ -274,6 +292,34 @@ const getLastDogs = async (page) => {
   }
 };
 
+// Get more views
+const getMoreViews = async () => {
+  const results = [];
+  try {
+    const dogs = await Dog.findAll({
+      attributes: ["id", "name", "image", "views"],
+      order: [["views", "DESC"]],
+      limit: 10,
+    });
+
+    if (dogs) {
+      dogs.forEach((d) => {
+        results.push({
+          id: d.id,
+          name: d.name,
+          image: d.image,
+          views: d.views,
+        });
+      });
+    }
+
+    return results;
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to get dogs with more views");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
@@ -281,4 +327,5 @@ module.exports = {
   createDog,
   updateDogImage,
   getLastDogs,
+  getMoreViews,
 };
