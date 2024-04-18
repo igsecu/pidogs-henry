@@ -378,6 +378,44 @@ const getDogComments = async (id) => {
   }
 };
 
+// Get last comments
+const getLastComments = async () => {
+  const results = [];
+  try {
+    const comments = await Comment.findAll({
+      attributes: ["id", "text", "from"],
+      include: {
+        model: Dog,
+        attributes: ["id", "name", "image"],
+      },
+      order: [["createdAt", "DESC"]],
+      limit: 5,
+    });
+
+    if (comments) {
+      comments.forEach((c) => {
+        results.push({
+          id: c.id,
+          text: c.text,
+          from: c.from,
+          dog: {
+            id: c.dog.id,
+            name: c.dog.name,
+            image: c.dog.image,
+          },
+        });
+      });
+    }
+
+    return results;
+
+    return results;
+  } catch (error) {
+    console.log(error.message);
+    throw new Error("Error trying to get last comments");
+  }
+};
+
 module.exports = {
   getDogs,
   getDogById,
@@ -388,4 +426,5 @@ module.exports = {
   getMoreViews,
   createComment,
   getDogComments,
+  getLastComments,
 };
