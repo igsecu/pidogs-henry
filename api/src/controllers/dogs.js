@@ -596,6 +596,28 @@ const getLastComments = async (req, res, next) => {
   }
 };
 
+// Get random dog
+const getRandomDog = async (req, res, next) => {
+  try {
+    const dog = await dogServices.getRandomDog();
+
+    if (!dog) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: `No dogs saved in DB!`,
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      data: dog,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -609,4 +631,5 @@ module.exports = {
   createComment,
   getDogComments,
   getLastComments,
+  getRandomDog,
 };
