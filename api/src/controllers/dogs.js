@@ -535,6 +535,45 @@ const createComment = async (req, res, next) => {
   }
 };
 
+// Get dog comments
+const getDogComments = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    if (!validateId(id)) {
+      return res.status(400).json({
+        statusCode: 400,
+        msg: `ID: ${id} - Invalid format!`,
+      });
+    }
+
+    const dog = await Dog.findByPk(id);
+
+    if (!dog) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: `Dog with ID: ${id} not found!`,
+      });
+    }
+
+    const comments = await dogServices.getDogComments(id);
+
+    if (!comments.length > 0) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: "This dog does not have comments to show!",
+      });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      data: comments,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -546,4 +585,5 @@ module.exports = {
   getLastDogs,
   getMoreViews,
   createComment,
+  getDogComments,
 };
