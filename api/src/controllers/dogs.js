@@ -2,10 +2,20 @@ const axios = require("axios");
 const Dog = require("../models/Dog");
 const Temperament = require("../models/Temperament");
 
+const { uploadDogImage } = require("../utils/cloudinary");
+
+const fsExtra = require("fs-extra");
+
 const {
   convertTemperamentsToArray,
   validatePage,
   validateId,
+  validateImageSize,
+  validateFileType,
+  validateHeight,
+  validateLifeSpan,
+  validateName,
+  validateWeight,
 } = require("../utils/index");
 
 const dogServices = require("../services/dogs");
@@ -310,10 +320,73 @@ const getFilteredDogs = async (req, res, next) => {
   }
 };
 
+// Create dog
+const createDog = async (req, res, next) => {
+  const dog = req.body;
+
+  console.log(dog);
+
+  if (validateName(dog.name)) {
+    return res.status(400).json({
+      statusCode: 400,
+      msg: validateName(dog.name),
+    });
+  }
+
+  if (validateHeight(dog.min_height, dog.max_height)) {
+    return res.status(400).json({
+      statusCode: 400,
+      msg: validateHeight(dog.min_height, dog.max_height),
+    });
+  }
+
+  if (validateWeight(dog.min_weight, dog.max_weight)) {
+    return res.status(400).json({
+      statusCode: 400,
+      msg: validateWeight(dog.min_weight, dog.max_weight),
+    });
+  }
+
+  if (validateLifeSpan(dog.min_life_span, dog.max_life_span)) {
+    return res.status(400).json({
+      statusCode: 400,
+      msg: validateLifeSpan(dog.min_life_span, dog.max_life_span),
+    });
+  }
+
+  try {
+    const dogCreated = await dogServices.createDog(
+      dog,
+      dog.min_weight + " - " + dog.max_weight,
+      dog.min_height + " - " + dog.max_height,
+      dog.min_life_span + " - " + dog.max_life_span
+    );
+
+    if (dog.temperaments.length > 0) {
+      for (let t of dog.temperaments) {
+        const temperamentFound = await Temperament.findOne({
+          where: { name: t },
+        });
+        temperamentFound.addDog(dogCreated.id);
+      }
+    }
+
+    res.status(201).json({
+      statusCode: 201,
+      msg: "Dog created successfully!",
+      data: dogCreated,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(new Error("Error trying to create a new dog!"));
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
   getDogById,
   getDogsByTemperament,
   getFilteredDogs,
+  createDog,
 };
