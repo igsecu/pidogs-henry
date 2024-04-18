@@ -434,6 +434,27 @@ const getTemperaments = async (req, res, next) => {
   }
 };
 
+// Get last dogs
+const getLastDogs = async (req, res, next) => {
+  try {
+    const dogs = await dogServices.getLastDogs();
+
+    if (!dogs) {
+      return res.status(404).json({
+        statusCode: 404,
+        msg: "No dogs saved in DB!",
+      });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      data: dogs,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   getAllApi,
   getDogs,
@@ -442,4 +463,5 @@ module.exports = {
   createDog,
   updateDogImage,
   getTemperaments,
+  getLastDogs,
 };
