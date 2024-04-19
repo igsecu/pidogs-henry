@@ -273,7 +273,7 @@ const getLastDogs = async () => {
     const dogs = await Dog.findAll({
       attributes: ["id", "name", "image"],
       order: [["createdAt", "DESC"]],
-      limit: 10,
+      limit: 7,
     });
 
     if (dogs) {
@@ -300,7 +300,7 @@ const getMoreViews = async () => {
     const dogs = await Dog.findAll({
       attributes: ["id", "name", "image", "views"],
       order: [["views", "DESC"]],
-      limit: 10,
+      limit: 7,
     });
 
     if (dogs) {
