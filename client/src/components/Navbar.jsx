@@ -42,10 +42,13 @@ const Navbar = ({ favorites }) => {
               >
                 Favorites
               </span>
-              <ul className="dropdown-menu rounded-0 bg-dark border-0 text-white">
+              <ul
+                className="dropdown-menu bg-light border-0 text-dark shadow border"
+                style={{ maxHeight: "150px" }}
+              >
                 {favorites ? (
-                  <p className=" mb-0 fw-bold text-center">
-                    You do not have favorites to show!
+                  <p className="mb-0 fw-bold text-center">
+                    No favorites to show!
                   </p>
                 ) : (
                   <li>
@@ -57,7 +60,7 @@ const Navbar = ({ favorites }) => {
               </ul>
             </li>
 
-            <li className="navbar-item bg-danger rounded text-center text-start-md custom-btn ms-2">
+            <li className="navbar-item bg-danger rounded text-center text-start-md custom-btn mt-2 mt-md-0 ms-md-2">
               <Link to="/" className="nav-link text-white ">
                 Create Dog
               </Link>
