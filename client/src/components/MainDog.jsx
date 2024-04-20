@@ -1,4 +1,5 @@
 import dogsImage from "../images/peakpx.jpg";
+import { Link } from "react-router-dom";
 
 const MainDog = () => {
   return (
@@ -9,12 +10,12 @@ const MainDog = () => {
           <h5 className="card-title fs-2 text-center text-md-start">
             Discover all dog breeds
           </h5>
-          <a
-            href="/"
+          <Link
+            to="/dogs"
             className="bg-danger text-decoration-none text-white rounded p-2 d-grid d-md-block text-center text-md-start custom-btn"
           >
             Enter
-          </a>
+          </Link>
         </div>
       </div>
     </div>
