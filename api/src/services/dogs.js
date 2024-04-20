@@ -131,6 +131,7 @@ const getFilteredDogs = async (
   const results = [];
   try {
     const dogs = await Dog.findAndCountAll({
+      distinct: true,
       where: {
         ...(name
           ? {
@@ -163,7 +164,6 @@ const getFilteredDogs = async (
     if (dogs.count === 0) {
       return false;
     }
-
     if (dogs.rows.length > 0) {
       for (let d of dogs.rows) {
         const temperaments = await Temperament.findAll({
@@ -181,7 +181,9 @@ const getFilteredDogs = async (
             name: d.name,
             image: d.image,
             weight: d.weight,
-            temperaments: temperaments.map((t) => t.name),
+            temperaments: temperaments.map((t) => {
+              return t.name;
+            }),
           });
         } else {
           results.push({
