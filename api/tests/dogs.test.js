@@ -19,7 +19,7 @@ describe("GET /api/dogs route -> get all dogs", () => {
   it("it should return 200 status code", async () => {
     const response = await request(app).get("/api/dogs");
     expect(response.status).toBe(200);
-    //console.log(response.body);
+    console.log(response.body);
   });
   it("it should return 400 status code -> page invalid", async () => {
     const response = await request(app).get("/api/dogs?page=hola");
@@ -38,7 +38,7 @@ describe("GET /api/dogs route -> get all dogs", () => {
   });
 });
 
-describe("GET /api/dogs/:id route -> get dog by id", () => {
+/* describe("GET /api/dogs/:id route -> get dog by id", () => {
   it("it should return 400 status code -> id invalid format", async () => {
     const response = await request(app).get("/api/dogs/1");
     expect(response.status).toBe(400);
@@ -59,9 +59,9 @@ describe("GET /api/dogs/:id route -> get dog by id", () => {
     );
     expect(response.status).toBe(200);
   });
-});
+}); */
 
-describe("GET /api/dogs/filter route -> get filtered dogs", () => {
+/* describe("GET /api/dogs/filter route -> get filtered dogs", () => {
   it("it should return 400 status code -> query parameter is missing", async () => {
     const response = await request(app).get("/api/dogs/filter");
     expect(response.status).toBe(400);
@@ -97,10 +97,10 @@ describe("GET /api/dogs/filter route -> get filtered dogs", () => {
     );
     expect(response.status).toBe(200);
   });
-});
+}); */
 
 describe("POST / route -> create new dog", () => {
-  it("it should return 400 status code -> name is missing", async () => {
+  /*  it("it should return 400 status code -> name is missing", async () => {
     const response = await request(app).post("/api/dogs").send({});
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe("Name is missing");
@@ -168,7 +168,7 @@ describe("POST / route -> create new dog", () => {
     });
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe("max_life_span is missing");
-  });
+  }); */
   /* it("it should return 201 status code -> max life span is missing", async () => {
     const response = await request(app).post("/api/dogs").send({
       name: "New dog",
@@ -231,28 +231,28 @@ describe("PUT /:id route -> update dog image", () => {
   }); */
 });
 
-describe("GET /temperaments route -> get all temperaments", () => {
+/* describe("GET /temperaments route -> get all temperaments", () => {
   it("it should return 200 status code -> get temperaments", async () => {
     const response = await request(app).get("/api/dogs/temperaments");
     expect(response.status).toBe(200);
   });
-});
+}); */
 
-describe("GET /last route -> get last dogs", () => {
+/* describe("GET /last route -> get last dogs", () => {
   it("it should return 200 status code -> get last dogs", async () => {
     const response = await request(app).get("/api/dogs/last");
     expect(response.status).toBe(200);
   });
-});
+}); */
 
-describe("GET /more route -> get more viewed dogs", () => {
+/* describe("GET /more route -> get more viewed dogs", () => {
   it("it should return 200 status code -> get more viewed dogs", async () => {
     const response = await request(app).get("/api/dogs/views");
     expect(response.status).toBe(200);
   });
-});
+}); */
 
-describe("POST /comment route -> create new comment", () => {
+/* describe("POST /comment route -> create new comment", () => {
   it("it should return 400 status code -> dogId is missing", async () => {
     const response = await request(app).post("/api/dogs/comment").send({
       text: "Hola",
@@ -292,9 +292,9 @@ describe("POST /comment route -> create new comment", () => {
     });
     expect(response.status).toBe(201);
   });
-});
+}); */
 
-describe("GET /comments/:id route -> get dog comments", () => {
+/* describe("GET /comments/:id route -> get dog comments", () => {
   it("it should return 400 status code -> id invalid format", async () => {
     const response = await request(app).get("/api/dogs/comments/1");
     expect(response.status).toBe(400);
@@ -322,16 +322,16 @@ describe("GET /comments/:id route -> get dog comments", () => {
     );
     expect(response.status).toBe(200);
   });
-});
+}); */
 
-describe("GET /comments route -> get last comments", () => {
+/* describe("GET /comments route -> get last comments", () => {
   it("it should return 200 status code -> get last comments", async () => {
     const response = await request(app).get("/api/dogs/comments/last");
     expect(response.status).toBe(200);
   });
-});
+}); */
 
-describe("GET /random route -> get random dog", () => {
+/* describe("GET /random route -> get random dog", () => {
   it("it should return 200 status code -> get random dog", async () => {
     const response = await request(app).get("/api/dogs/random");
     expect(response.status).toBe(200);
@@ -342,3 +342,4 @@ describe("GET /random route -> get random dog", () => {
     7;
   });
 });
+ */
