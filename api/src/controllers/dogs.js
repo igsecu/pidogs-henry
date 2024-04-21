@@ -221,7 +221,7 @@ const getFilteredDogs = async (req, res, next) => {
       }
     }
 
-    /* if (temperament) {
+    if (temperament) {
       if (!validateId(temperament)) {
         return res.status(400).json({
           statusCode: 400,
@@ -239,7 +239,7 @@ const getFilteredDogs = async (req, res, next) => {
           msg: `Temperament with ID: ${temperament} not found!`,
         });
       }
-    } */
+    }
 
     /* if (!order && !weight && !height && !life && !name && !temperament) {
       return res.status(400).json({
