@@ -1,8 +1,22 @@
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const FilterNavbar = () => {
+const FilterNavbar = ({
+  setNameGlobal,
+  setTemperament,
+  setPage,
+  setOrder,
+  setWeight,
+  setHeight,
+  setLife,
+}) => {
   const [temperaments, setTemperaments] = useState([]);
+  const [name, setName] = useState("");
+  const [selectedNameOrder, setSelectedNameOrder] = useState("");
+  const [selectedWeightOrder, setSelectedWeightOrder] = useState("");
+  const [selectedHeightOrder, setSelectedHeightOrder] = useState("");
+  const [selectedLifeOrder, setSelectedLifeOrder] = useState("");
+  const [temperamentOption, setTemperamentOption] = useState("");
 
   useEffect(() => {
     const fetchTemperaments = async () => {
@@ -21,6 +35,64 @@ const FilterNavbar = () => {
     fetchTemperaments();
   }, []);
 
+  const submitName = (e) => {
+    e.preventDefault();
+
+    setNameGlobal(name);
+    setPage(1);
+  };
+
+  const setTemperamentGlobal = (id) => {
+    setTemperament(id);
+    setPage(1);
+  };
+
+  const handleNameOptionChange = (e) => {
+    setSelectedNameOrder(e.target.value);
+    setOrder(e.target.value);
+  };
+
+  const handleWeightOptionChange = (e) => {
+    setSelectedWeightOrder(e.target.value);
+    setWeight(e.target.value);
+  };
+
+  const handleHeightOptionChange = (e) => {
+    setSelectedHeightOrder(e.target.value);
+    setHeight(e.target.value);
+  };
+
+  const handleLifeOptionChange = (e) => {
+    setSelectedLifeOrder(e.target.value);
+    setLife(e.target.value);
+  };
+
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleTemperamentOption = (e) => {
+    setTemperamentOption(e.target.value);
+    setTemperamentGlobal(e.target.value);
+  };
+
+  const cleanFilters = () => {
+    setName("");
+    setNameGlobal("");
+    setTemperament("");
+    setPage(1);
+    setSelectedNameOrder("");
+    setOrder("");
+    setSelectedWeightOrder("");
+    setWeight("");
+    setSelectedHeightOrder("");
+    setHeight("");
+    setSelectedLifeOrder("");
+    setLife("");
+    setTemperamentOption("");
+    setTemperamentGlobal("");
+  };
+
   return (
     <nav className="navbar navbar-expand-md bg-dark navbar-dark py-3">
       <div className="container">
@@ -29,11 +101,15 @@ const FilterNavbar = () => {
             <select
               className="form-select bg-dark text-white"
               aria-label="Default select example"
+              value={temperamentOption}
+              onChange={handleTemperamentOption}
             >
-              <option selected>Filter by Temperament</option>
+              <option value="" id="temperament_title">
+                Filter by Temperament
+              </option>
               {temperaments ? (
                 temperaments.map((t) => (
-                  <option key={t.id} value={t.name}>
+                  <option key={t.id} value={t.id}>
                     {t.name}
                   </option>
                 ))
@@ -45,12 +121,18 @@ const FilterNavbar = () => {
           <div className="d-grid d-lg-block mt-2 mt-lg-0">
             <div className="d-flex align-items-center">
               <FaSearch className="text-danger fs-3" />
-              <form class="d-flex w-100" role="search">
+              <form
+                className="d-flex w-100"
+                role="search"
+                onSubmit={submitName}
+              >
                 <input
                   className="form-control me-2 ms-2"
                   type="search"
                   placeholder="Enter dog breed name..."
                   aria-label="Search"
+                  value={name}
+                  onChange={handleName}
                 />
                 <button className="btn btn-outline-danger" type="submit">
                   Search
@@ -76,8 +158,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_name"
                   id="radio_az"
+                  value="ASC"
+                  checked={selectedNameOrder === "ASC"}
+                  onClick={handleNameOptionChange}
                 />
-                <label className="form-check-label" for="radio_az">
+                <label className="form-check-label" htmlFor="radio_az">
                   A - Z
                 </label>
               </div>
@@ -87,8 +172,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_name"
                   id="radio_za"
+                  value="DESC"
+                  checked={selectedNameOrder === "DESC"}
+                  onClick={handleNameOptionChange}
                 />
-                <label className="form-check-label" for="radio_za">
+                <label className="form-check-label" htmlFor="radio_za">
                   Z - A
                 </label>
               </div>
@@ -100,8 +188,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_weight"
                   id="weight_less"
+                  value="ASC"
+                  checked={selectedWeightOrder === "ASC"}
+                  onClick={handleWeightOptionChange}
                 />
-                <label className="form-check-label" for="radio_weight">
+                <label className="form-check-label" htmlFor="radio_weight">
                   Less
                 </label>
               </div>
@@ -111,8 +202,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_weight"
                   id="weight_more"
+                  value="DESC"
+                  checked={selectedWeightOrder === "DESC"}
+                  onClick={handleWeightOptionChange}
                 />
-                <label className="form-check-label" for="radio_weight">
+                <label className="form-check-label" htmlFor="radio_weight">
                   More
                 </label>
               </div>
@@ -124,8 +218,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_height"
                   id="height_less"
+                  value="ASC"
+                  checked={selectedHeightOrder === "ASC"}
+                  onClick={handleHeightOptionChange}
                 />
-                <label className="form-check-label" for="radio_height">
+                <label className="form-check-label" htmlFor="radio_height">
                   Less
                 </label>
               </div>
@@ -135,8 +232,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_height"
                   id="height_more"
+                  value="DESC"
+                  checked={selectedHeightOrder === "DESC"}
+                  onClick={handleHeightOptionChange}
                 />
-                <label className="form-check-label" for="radio_height">
+                <label className="form-check-label" htmlFor="radio_height">
                   More
                 </label>
               </div>
@@ -147,8 +247,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_life"
                   id="life_less"
+                  value="ASC"
+                  checked={selectedLifeOrder === "ASC"}
+                  onClick={handleLifeOptionChange}
                 />
-                <label className="form-check-label" for="radio_life">
+                <label className="form-check-label" htmlFor="radio_life">
                   Less
                 </label>
               </div>
@@ -158,8 +261,11 @@ const FilterNavbar = () => {
                   type="radio"
                   name="radio_life"
                   id="life_more"
+                  value="DESC"
+                  checked={selectedLifeOrder === "DESC"}
+                  onClick={handleLifeOptionChange}
                 />
-                <label className="form-check-label" for="radio_life">
+                <label className="form-check-label" htmlFor="radio_life">
                   More
                 </label>
               </div>
@@ -167,7 +273,9 @@ const FilterNavbar = () => {
           </div>
 
           <div className="d-grid d-lg-block  mt-2 mt-lg-0">
-            <button className="btn btn-dark">Clean Filters</button>
+            <button className="btn btn-dark" onClick={cleanFilters}>
+              Clean Filters
+            </button>
           </div>
         </div>
       </div>
