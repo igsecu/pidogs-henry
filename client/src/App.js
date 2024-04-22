@@ -20,11 +20,39 @@ function App() {
     setFavorites(itemsFromLocalStorage);
   }, []);
 
+  const addToFavorite = (newDog) => {
+    const itemsFromLocalStorage =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    itemsFromLocalStorage.unshift(newDog);
+    localStorage.setItem("favorites", JSON.stringify(itemsFromLocalStorage));
+    setFavorites(itemsFromLocalStorage);
+  };
+
+  const removeFromFavorite = (dog) => {
+    const itemsFromLocalStorage =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    const filteredItems = itemsFromLocalStorage.filter((i) => {
+      return i.id !== dog.id;
+    });
+
+    localStorage.setItem("favorites", JSON.stringify(filteredItems));
+    setFavorites(filteredItems);
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout favorites={favorites} />}>
         <Route index element={<HomePage />} />
-        <Route path="/dogs" element={<DogsPage />} />
+        <Route
+          path="/dogs"
+          element={
+            <DogsPage
+              addToFavorite={addToFavorite}
+              removeFromFavorite={removeFromFavorite}
+              favorites={favorites}
+            />
+          }
+        />
       </Route>
     )
   );
