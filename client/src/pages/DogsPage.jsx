@@ -4,7 +4,7 @@ import DogListings from "../components/DogListings";
 import PaginationNavbar from "../components/PaginationNavbar";
 import Spinner from "../components/Spinner";
 
-const DogsPage = () => {
+const DogsPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
   const [dogs, setDogs] = useState([]);
   const [page, setPage] = useState(1);
   const [name, setName] = useState("");
@@ -56,7 +56,12 @@ const DogsPage = () => {
                 page={page}
                 setPage={setPage}
               />
-              <DogListings dogs={dogs} />
+              <DogListings
+                dogs={dogs}
+                addToFavorite={addToFavorite}
+                removeFromFavorite={removeFromFavorite}
+                favorites={favorites}
+              />
             </>
           ) : (
             <p>No dogs found!</p>
