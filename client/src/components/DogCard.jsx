@@ -1,6 +1,27 @@
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-const DogCard = ({ dog }) => {
+const DogCard = ({ dog, addToFavorite, removeFromFavorite, favorites }) => {
+  const [favorite, setFavorite] = useState(false);
+
+  useEffect(() => {
+    favorites.forEach((f) => {
+      if (f.id === dog.id) {
+        setFavorite(true);
+        return;
+      }
+    });
+  }, [favorites, dog.id]);
+
+  const handleAction = () => {
+    if (favorite) {
+      removeFromFavorite(dog);
+      setFavorite(false);
+    } else {
+      addToFavorite(dog);
+      setFavorite(true);
+    }
+  };
+
   return (
     <div
       className="card p-2 border rounded-0 ms-2 mb-2 text-center"
@@ -33,7 +54,16 @@ const DogCard = ({ dog }) => {
           <a href="/" className="text-decoration-none text-dark">
             See More
           </a>
-          <button className="btn btn-success rounded-0">Add to Favorite</button>
+          <button
+            className={
+              favorite
+                ? "btn btn-danger rounded-0"
+                : "btn btn-success rounded-0"
+            }
+            onClick={handleAction}
+          >
+            {favorite ? "Remove Favorite" : "Add Favorite"}
+          </button>
         </div>
       </div>
     </div>
