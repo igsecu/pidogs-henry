@@ -161,6 +161,7 @@ const FilterNavbar = ({
                   value="ASC"
                   checked={selectedNameOrder === "ASC"}
                   onClick={handleNameOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_az">
                   A - Z
@@ -175,6 +176,7 @@ const FilterNavbar = ({
                   value="DESC"
                   checked={selectedNameOrder === "DESC"}
                   onClick={handleNameOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_za">
                   Z - A
@@ -191,6 +193,7 @@ const FilterNavbar = ({
                   value="ASC"
                   checked={selectedWeightOrder === "ASC"}
                   onClick={handleWeightOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_weight">
                   Less
@@ -205,6 +208,7 @@ const FilterNavbar = ({
                   value="DESC"
                   checked={selectedWeightOrder === "DESC"}
                   onClick={handleWeightOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_weight">
                   More
@@ -221,6 +225,7 @@ const FilterNavbar = ({
                   value="ASC"
                   checked={selectedHeightOrder === "ASC"}
                   onClick={handleHeightOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_height">
                   Less
@@ -235,6 +240,7 @@ const FilterNavbar = ({
                   value="DESC"
                   checked={selectedHeightOrder === "DESC"}
                   onClick={handleHeightOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_height">
                   More
@@ -250,6 +256,7 @@ const FilterNavbar = ({
                   value="ASC"
                   checked={selectedLifeOrder === "ASC"}
                   onClick={handleLifeOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_life">
                   Less
@@ -264,6 +271,7 @@ const FilterNavbar = ({
                   value="DESC"
                   checked={selectedLifeOrder === "DESC"}
                   onClick={handleLifeOptionChange}
+                  readOnly
                 />
                 <label className="form-check-label" htmlFor="radio_life">
                   More
