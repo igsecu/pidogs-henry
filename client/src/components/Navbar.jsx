@@ -42,20 +42,36 @@ const Navbar = ({ favorites }) => {
               >
                 Favorites
               </span>
-              <ul
-                className="dropdown-menu bg-light border-0 text-dark shadow border"
-                style={{ maxHeight: "150px" }}
-              >
-                {favorites ? (
+              <ul className="dropdown-menu bg-light border-0 text-dark shadow border">
+                {favorites.length > 0 ? (
+                  <div
+                    className="list-group me-0 me-lg-0 me-md-2 mb-2 overflow-scroll"
+                    style={{ maxHeight: "250px", minWidth: "200px" }}
+                  >
+                    {favorites.map((d) => (
+                      <a
+                        key={d.id}
+                        href="/"
+                        className="list-group-item list-group-item-action border-0 border-bottom pb-0"
+                      >
+                        <div className="d-flex">
+                          <img
+                            src={d.image}
+                            alt=""
+                            className="rounded-circle"
+                            style={{ width: "30px", height: "30px" }}
+                          />
+                          <div className="ms-2">
+                            <p>{d.name}</p>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
                   <p className="mb-0 fw-bold text-center">
                     No favorites to show!
                   </p>
-                ) : (
-                  <li>
-                    <a className="dropdown-item" href="/">
-                      Action
-                    </a>
-                  </li>
                 )}
               </ul>
             </li>
