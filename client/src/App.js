@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import DogsPage from "./pages/DogsPage";
+import DogPage from "./pages/DogPage";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -53,6 +54,7 @@ function App() {
             />
           }
         />
+        <Route path="/dogs/:id" element={<DogPage />} />
       </Route>
     )
   );
