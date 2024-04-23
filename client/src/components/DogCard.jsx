@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const DogCard = ({ dog, addToFavorite, removeFromFavorite, favorites }) => {
   const [favorite, setFavorite] = useState(false);
@@ -51,9 +52,12 @@ const DogCard = ({ dog, addToFavorite, removeFromFavorite, favorites }) => {
         </div>
 
         <div className="border-top border-2 pt-2 d-flex justify-content-between align-items-center">
-          <a href="/" className="text-decoration-none text-dark">
+          <Link
+            to={`/dogs/${dog.id}`}
+            className="text-decoration-none text-dark"
+          >
             See More
-          </a>
+          </Link>
           <button
             className={
               favorite
