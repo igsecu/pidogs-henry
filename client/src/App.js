@@ -12,6 +12,7 @@ import HomePage from "./pages/HomePage";
 import DogsPage from "./pages/DogsPage";
 import DogPage from "./pages/DogPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import CreateDog from "./pages/CreateDog";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -55,6 +56,7 @@ function App() {
             />
           }
         />
+        <Route path="/create-dog" element={<CreateDog />} />
         <Route
           path="/dogs/:id"
           element={
