@@ -77,7 +77,7 @@ const Navbar = ({ favorites }) => {
             </li>
 
             <li className="navbar-item bg-danger rounded text-center text-start-md custom-btn mt-2 mt-md-0 ms-md-2">
-              <Link to="/" className="nav-link text-white ">
+              <Link to="/create-dog" className="nav-link text-white ">
                 Create Dog
               </Link>
             </li>
