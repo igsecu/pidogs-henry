@@ -147,6 +147,23 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
                     <span className="fw-bold">Life Span: </span>
                     {dog.life_span}
                   </p>
+                  <div className="mb-3 border-bottom border-2">
+                    <span className="fw-bold">Temperaments: </span>
+                    <div className="d-flex justify-content-start flex-wrap mt-2">
+                      {dog.temperaments.length > 0 ? (
+                        dog.temperaments.map((t) => (
+                          <span
+                            key={t}
+                            className="badge text-bg-success me-2 mb-2"
+                          >
+                            {t}
+                          </span>
+                        ))
+                      ) : (
+                        <p>No temperaments to show!</p>
+                      )}
+                    </div>
+                  </div>
                   <div className="d-flex justify-content-end">
                     <button
                       className={
