@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const MoreDogs = ({ dogs }) => {
   return (
     <div className="list-group rounded-0">
@@ -5,9 +7,9 @@ const MoreDogs = ({ dogs }) => {
         More Views
       </p>
       {dogs.map((d) => (
-        <a
+        <Link
           key={d.id}
-          href="/"
+          to={`/dogs/${d.id}`}
           className="list-group-item list-group-item-action border-0 border-bottom"
         >
           <div className="d-flex">
@@ -22,7 +24,7 @@ const MoreDogs = ({ dogs }) => {
               <span className="fw-bold ms-2 ms-lg-0">{d.views} views</span>
             </div>
           </div>
-        </a>
+        </Link>
       ))}
     </div>
   );
