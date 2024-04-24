@@ -39,8 +39,8 @@ const validateName = (name) => {
 const validateHeight = (min_height, max_height) => {
   if (!min_height) return "min_height is missing!";
   if (!max_height) return "max_height is missing!";
-  if (typeof min_height !== "number") return "min_height must be a number!";
-  if (typeof max_height !== "number") return "max_height must be a number!";
+  if (!parseInt(min_height)) return "min_height must be a number!";
+  if (!parseInt(max_height)) return "max_height must be a number!";
   if (
     min_height > 120 ||
     min_height < 1 ||
@@ -49,7 +49,7 @@ const validateHeight = (min_height, max_height) => {
   ) {
     return "Height must be between 1 and 120";
   }
-  if (max_height < min_height)
+  if (parseInt(max_height) <= parseInt(min_height))
     return "max_height must be higher than min_height";
   return false;
 };
@@ -58,8 +58,8 @@ const validateHeight = (min_height, max_height) => {
 const validateWeight = (min_weight, max_weight) => {
   if (!min_weight) return "min_weight is missing!";
   if (!max_weight) return "max_weight is missing!";
-  if (typeof min_weight !== "number") return "min_weight must be a number!";
-  if (typeof max_weight !== "number") return "max_weight must be a number!";
+  if (!parseInt(min_weight)) return "min_weight must be a number!";
+  if (!parseInt(max_weight)) return "max_weight must be a number!";
   if (
     min_weight > 100 ||
     min_weight < 1 ||
@@ -68,7 +68,7 @@ const validateWeight = (min_weight, max_weight) => {
   ) {
     return "Weight must be between 1 and 100";
   }
-  if (max_weight < min_weight)
+  if (parseInt(max_weight) <= parseInt(min_weight))
     return "max_weight must be higher than min_weight";
   return false;
 };
@@ -77,10 +77,8 @@ const validateWeight = (min_weight, max_weight) => {
 const validateLifeSpan = (min_life_span, max_life_span) => {
   if (!min_life_span) return "min_life_span is missing";
   if (!max_life_span) return "max_life_span is missing";
-  if (typeof min_life_span !== "number")
-    return "min_life_span must be a number!";
-  if (typeof max_life_span !== "number")
-    return "max_life_span must be a number!";
+  if (!parseInt(min_life_span)) return "min_life_span must be a number!";
+  if (!parseInt(max_life_span)) return "max_life_span must be a number!";
   if (
     min_life_span > 25 ||
     min_life_span < 1 ||
@@ -89,7 +87,7 @@ const validateLifeSpan = (min_life_span, max_life_span) => {
   ) {
     return "Life Span must be between 1 and 30";
   }
-  if (max_life_span < min_life_span)
+  if (parseInt(max_life_span) <= parseInt(min_life_span))
     return "max_life_span must be higher than min_life_span";
   return false;
 };
