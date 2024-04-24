@@ -6,7 +6,7 @@ import { FaArrowLeft, FaExclamation } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Comment from "../components/Comment";
 
-const DogPage = () => {
+const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
   const { id } = useParams();
 
   const [dog, setDog] = useState(null);
@@ -17,7 +17,8 @@ const DogPage = () => {
 
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(false);
-  const [add, setAdd] = useState(false);
+
+  const [favorite, setFavorite] = useState(false);
 
   const commentsEndRef = useRef(null);
 
@@ -50,6 +51,15 @@ const DogPage = () => {
 
     fetchDog();
   }, [id]);
+
+  useEffect(() => {
+    favorites.forEach((f) => {
+      if (f.id === dog?.id) {
+        setFavorite(true);
+        return;
+      }
+    });
+  }, [favorites, dog?.id]);
 
   useEffect(() => scrollToBottom(), [comments]);
 
@@ -91,6 +101,16 @@ const DogPage = () => {
     }
   };
 
+  const handleAction = () => {
+    if (favorite) {
+      removeFromFavorite(dog);
+      setFavorite(false);
+    } else {
+      addToFavorite(dog);
+      setFavorite(true);
+    }
+  };
+
   return (
     <div className="container mt-3" style={{ minHeight: "700px" }}>
       {loading ? (
@@ -127,6 +147,18 @@ const DogPage = () => {
                     <span className="fw-bold">Life Span: </span>
                     {dog.life_span}
                   </p>
+                  <div className="d-flex justify-content-end">
+                    <button
+                      className={
+                        favorite
+                          ? "btn btn-danger rounded-0"
+                          : "btn btn-success rounded-0"
+                      }
+                      onClick={handleAction}
+                    >
+                      {favorite ? "Remove Favorite" : "Add Favorite"}
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="col-lg-3 mt-2 mt-lg-0">
