@@ -327,7 +327,7 @@ const createDog = async (req, res, next) => {
         const temperamentFound = await Temperament.findOne({
           where: { name: t },
         });
-        temperamentFound.addDog(dogCreated.id);
+        temperamentFound.addDog(dogCreated.dataValues.id);
       }
     }
 
