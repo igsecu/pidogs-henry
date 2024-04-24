@@ -24,8 +24,20 @@ code {
   height: 500px;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 1200px) {
+  .main-dog {
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .main-dog {
     height: 300px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .main-dog {
+    height: 200px;
   }
 }
