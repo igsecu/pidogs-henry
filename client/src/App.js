@@ -55,7 +55,16 @@ function App() {
             />
           }
         />
-        <Route path="/dogs/:id" element={<DogPage />} />
+        <Route
+          path="/dogs/:id"
+          element={
+            <DogPage
+              addToFavorite={addToFavorite}
+              removeFromFavorite={removeFromFavorite}
+              favorites={favorites}
+            />
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     )
