@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const LastDogs = ({ dogs }) => {
   return (
     <div className="list-group me-0 me-lg-0 me-md-2 mb-2 rounded-0">
@@ -5,9 +7,9 @@ const LastDogs = ({ dogs }) => {
         Last Dogs
       </p>
       {dogs.map((d) => (
-        <a
+        <Link
           key={d.id}
-          href="/"
+          to={`/dogs/${d.id}`}
           className="list-group-item list-group-item-action border-0 border-bottom pb-0"
         >
           <div className="d-flex">
@@ -21,7 +23,7 @@ const LastDogs = ({ dogs }) => {
               <p>{d.name}</p>
             </div>
           </div>
-        </a>
+        </Link>
       ))}
     </div>
   );
