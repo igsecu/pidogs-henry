@@ -3,6 +3,7 @@ import FilterNavbar from "../components/FilterNavbar";
 import DogListings from "../components/DogListings";
 import PaginationNavbar from "../components/PaginationNavbar";
 import Spinner from "../components/Spinner";
+import NoFound from "../components/NoFound";
 
 const DogsPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
   const [dogs, setDogs] = useState([]);
@@ -64,7 +65,12 @@ const DogsPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
               />
             </>
           ) : (
-            <p>No dogs found!</p>
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ minHeight: "600px" }}
+            >
+              <NoFound text="Dogs with these filters not found!" />
+            </div>
           )}
         </div>
       )}
