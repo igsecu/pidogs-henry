@@ -369,6 +369,12 @@ const updateDogImage = async (req, res, next) => {
 
         await fsExtra.unlink(req.files.image.tempFilePath);
 
+        await Dog.destroy({
+          where: {
+            id,
+          },
+        });
+
         return res.status(400).json({
           statusCode: 400,
           msg: message,
@@ -379,6 +385,12 @@ const updateDogImage = async (req, res, next) => {
         const message = await validateImageSize(req.files.image.tempFilePath);
 
         await fsExtra.unlink(req.files.image.tempFilePath);
+
+        await Dog.destroy({
+          where: {
+            id,
+          },
+        });
 
         return res.status(400).json({
           statusCode: 400,
@@ -409,6 +421,11 @@ const updateDogImage = async (req, res, next) => {
     }
   } catch (error) {
     await fsExtra.unlink(req.files.image.tempFilePath);
+    await Dog.destroy({
+      where: {
+        id,
+      },
+    });
     console.log(error.message);
     return next(error);
   }
