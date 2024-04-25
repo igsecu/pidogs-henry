@@ -49,9 +49,9 @@ const Navbar = ({ favorites }) => {
                     style={{ maxHeight: "250px", minWidth: "200px" }}
                   >
                     {favorites.map((d) => (
-                      <a
+                      <Link
                         key={d.id}
-                        href="/"
+                        to={`/dogs/${d.id}`}
                         className="list-group-item list-group-item-action border-0 border-bottom pb-0"
                       >
                         <div className="d-flex">
@@ -65,7 +65,7 @@ const Navbar = ({ favorites }) => {
                             <p>{d.name}</p>
                           </div>
                         </div>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 ) : (
