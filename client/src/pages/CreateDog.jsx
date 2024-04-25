@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import dogImage from "../images/dog.png";
 import Spinner from "../components/Spinner";
 
 const CreateDog = () => {
@@ -125,25 +124,26 @@ const CreateDog = () => {
   };
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 ">
       {loading ? (
         <Spinner />
       ) : (
         <>
-          <h2>Create New Dog</h2>
+          <h2 className="text-center">Create New Dog</h2>
           <form
             className="col col-lg-6 mx-auto border shadow px-3"
             onSubmit={submitForm}
           >
-            <div className="mt-3 d-flex align-items-center">
+            <div className="mt-3 d-flex flex-column flex-md-row align-items-center justify-content-center">
               <img
-                className="rounded-circle me-3"
-                src={imageSrc ? imageSrc : dogImage}
+                className="rounded-circle me-3 bg-secondary object-fit-cover"
+                src={imageSrc ? imageSrc : ""}
                 alt=""
-                style={{ width: "150px", height: "150px" }}
+                style={{ width: "100px", height: "100px" }}
               />
-              <div>
-                <label className="form-label">Select Dog Picture</label>
+
+              <div className="mt-3 mt-md-0 text-center text-md-start">
+                <label className="form-label fw-bold">Select Dog Picture</label>
                 <input
                   className="form-control"
                   type="file"
@@ -158,7 +158,7 @@ const CreateDog = () => {
               </label>
               <input
                 id="type"
-                className="form-select"
+                className="form-control"
                 placeholder="Enter dog name..."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -232,7 +232,7 @@ const CreateDog = () => {
             </div>
             <div className="mt-3">
               <select
-                className="form-select bg-dark text-white"
+                className="form-select text-dark fw-bold"
                 aria-label="Default select example"
               >
                 <option value="" id="temperament_title">
@@ -255,7 +255,7 @@ const CreateDog = () => {
             </div>
             <div className="mt-3">
               {temperaments.length > 0 ? (
-                <div className="d-flex justify-content-center flex-wrap">
+                <div className="d-flex justify-content-center flex-wrap mb-2">
                   {temperaments.map((t) => (
                     <span key={t} className="badge text-bg-success me-2 mb-2">
                       <span
@@ -270,20 +270,27 @@ const CreateDog = () => {
                   ))}
                 </div>
               ) : (
-                <p>No temperaments chosen!</p>
+                <p className="text-center text-danger fw-bold">
+                  No temperaments chosen!
+                </p>
               )}
             </div>
-            {show ? (
-              <div className="alert alert-danger" role="alert">
-                {message}
+            <div className="border-top border-2">
+              {show ? (
+                <div
+                  className="alert alert-danger text-center mt-3"
+                  role="alert"
+                >
+                  {message}!
+                </div>
+              ) : (
+                <></>
+              )}
+              <div className="mt-3 d-grid">
+                <button type="submit" className="btn btn-dark mb-3">
+                  Create Dog
+                </button>
               </div>
-            ) : (
-              <></>
-            )}
-            <div className="mt-3 d-grid">
-              <button type="submit" className="btn btn-primary mb-3">
-                Create Dog
-              </button>
             </div>
           </form>
         </>
