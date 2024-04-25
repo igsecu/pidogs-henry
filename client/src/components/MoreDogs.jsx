@@ -19,7 +19,7 @@ const MoreDogs = ({ dogs }) => {
               className="rounded-circle"
               style={{ width: "30px", height: "30px" }}
             />
-            <div className="ms-2 d-flex flex-lg-column w-100">
+            <div className="ms-2 d-flex flex-lg-column justify-content-between w-100">
               <p className="mb-0">{d.name}</p>
               <span className="fw-bold ms-2 ms-lg-0">{d.views} views</span>
             </div>
