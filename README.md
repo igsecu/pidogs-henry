@@ -23,6 +23,33 @@
 <img src="./images/image6.png" width="400" alt="Job App Image 2">
 </td>
 </tr>
+<tr>
+<td width="33%">
+<img src="./images/image7.png" width="400" alt="Job App Image 1">
+</td>
+<td width="33%">
+<img src="./images/image8.png" width="400" alt="Job App Image 2">
+</td>
+<td width="33%">
+<img src="./images/image9.png" width="400" alt="Job App Image 2">
+</td>
+</tr>
+<tr>
+<td width="33%">
+<img src="./images/image10.png" width="400" alt="Job App Image 1">
+</td>
+<td width="33%">
+<img src="./images/image11.png" width="400" alt="Job App Image 2">
+</td>
+<td width="33%">
+<img src="./images/image12.png" width="400" alt="Job App Image 2">
+</td>
+</tr>
+<tr>
+<td width="33%">
+<img src="./images/image13.png" width="400" alt="Job App Image 1">
+</td>
+</tr>
 </table>
 
 ### Technologies
