@@ -17,6 +17,7 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
 
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(false);
+  const [error, setError] = useState(false);
 
   const [favorite, setFavorite] = useState(false);
 
@@ -81,6 +82,7 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
     });
 
     const data = await res.json();
+
     if (data.statusCode === 201) {
       setComments([
         ...comments,
@@ -92,12 +94,19 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
       ]);
       setComment("");
       setName("");
+      setError(false);
       setShow(true);
       setMessage("Comment created successfully!");
       setTimeout(() => {
         setShow(false);
         setMessage("");
       }, 2000);
+    }
+
+    if (data.statusCode === 400) {
+      setShow(true);
+      setMessage(data.msg);
+      setError(true);
     }
   };
 
@@ -201,7 +210,7 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
                   <div className="border-top border-2 pt-2 border-dark">
                     <form onSubmit={onSubmit}>
                       <div className="mb-3">
-                        <label className="form-label">Name</label>
+                        <label className="form-label fw-bold">Name</label>
                         <input
                           type="text"
                           className="form-control"
@@ -211,7 +220,7 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Comment</label>
+                        <label className="form-label fw-bold">Comment</label>
                         <textarea
                           type="text"
                           className="form-control"
@@ -220,7 +229,12 @@ const DogPage = ({ addToFavorite, removeFromFavorite, favorites }) => {
                         />
                       </div>
                       {show ? (
-                        <div className="alert alert-success" role="alert">
+                        <div
+                          className={`alert ${
+                            error ? "alert-danger" : "alert-success"
+                          } text-center`}
+                          role="alert"
+                        >
                           {message}
                         </div>
                       ) : (
